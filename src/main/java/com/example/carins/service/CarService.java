@@ -23,9 +23,24 @@ public class CarService {
         return carRepository.findAll();
     }
 
+    public boolean carExists(Long carId) {
+        return carRepository.existsById(carId);
+    }
+
     public boolean isInsuranceValid(Long carId, LocalDate date) {
         if (carId == null || date == null) return false;
-        // TODO: optionally throw NotFound if car does not exist
+        if (!carRepository.existsById(carId)) {
+            throw new java.util.NoSuchElementException("Car not found: " + carId);
+        }
         return policyRepository.existsActiveOnDate(carId, date);
     }
+
+    public Car createCar(Car car) {
+        if (carRepository.existsByVin(car.getVin())) {
+            throw new IllegalArgumentException("VIN already exists: " + car.getVin());
+        }
+        return carRepository.save(car);
+    }
+
+
 }

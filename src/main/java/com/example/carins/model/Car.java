@@ -7,9 +7,11 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "car")
 public class Car {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true, length = 50)
     @NotBlank @Size(min = 5, max = 32)
     private String vin;
 
