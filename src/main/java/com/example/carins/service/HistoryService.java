@@ -32,7 +32,7 @@
 
         public List<HistoryEvent> getCarHistory(Long carId) {
             if (!carExists(carId)) {
-                throw new java.util.NoSuchElementException("Car not found: " + carId);
+                throw new NoSuchElementException("Car not found: " + carId);
             }
 
             List<HistoryEvent> events = new ArrayList<>();
