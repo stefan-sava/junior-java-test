@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/cars/{carId}/claims")
@@ -43,12 +44,26 @@ public class ClaimController {
             URI location = URI.create("/api/cars/" + carId + "/claims/" + saved.getId());
             return ResponseEntity.created(location).body(dto);
 
-        } catch (java.util.NoSuchElementException notFound) {
+        } catch (NoSuchElementException notFound) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ErrorResponse(notFound.getMessage()));
         } catch (IllegalArgumentException bad) {
             return ResponseEntity.badRequest().body(new ErrorResponse(bad.getMessage()));
         }
+    }
+
+    @GetMapping("/{claimId}")
+    public ResponseEntity<?> getClaim(
+            @PathVariable Long carId,
+            @PathVariable Long claimId
+    ){
+        try{
+            return ResponseEntity.ok(claimService.getClaim(carId, claimId));
+        } catch (NoSuchElementException notFound) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse(notFound.getMessage()));
+        }
+
     }
 
     public record ErrorResponse(String message) {}

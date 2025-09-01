@@ -4,13 +4,14 @@ import com.example.carins.model.Car;
 import com.example.carins.model.InsuranceClaim;
 import com.example.carins.repo.CarRepository;
 import com.example.carins.repo.InsuranceClaimRepository;
-import jakarta.validation.Valid;
+import com.example.carins.web.dto.ClaimDto;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.NoSuchElementException;
 
 @Service
 public class ClaimService {
@@ -31,8 +32,25 @@ public class ClaimService {
             @NotNull BigDecimal amount) {
 
         Car car = carRepository.findById(carId)
-                .orElseThrow(() -> new java.util.NoSuchElementException("Car not found: " + carId));
+                .orElseThrow(() -> new NoSuchElementException("Car not found: " + carId));
 
         return claimRepository.save(new InsuranceClaim(car, claimDate, description, amount));
     }
+
+    public ClaimDto.ClaimResponse getClaim(
+            @NotNull Long carId,
+            @NotNull Long id) {
+        InsuranceClaim insuranceClaim = claimRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Claim not found: " + id));
+        if(!insuranceClaim.getCar().getId().equals(carId)) {
+            throw new NoSuchElementException("Claim " + id + " not found for car with id " + carId);
+        }
+        return  new ClaimDto.ClaimResponse(
+                insuranceClaim.getId(),
+                insuranceClaim.getCar().getId(),
+                insuranceClaim.getClaimDate(),
+                insuranceClaim.getDescription(),
+                insuranceClaim.getAmount());
+    }
+
 }
