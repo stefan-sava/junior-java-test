@@ -1,0 +1,23 @@
+# Maven target directory
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA project files
+.idea/
+*.iml
+*.iws
+
+# IntelliJ IDEA out folder
+out/
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+*.swp
+
+car-insurance.iml
+
+# OS-specific files
+.DS_Store
+Thumbs.db
