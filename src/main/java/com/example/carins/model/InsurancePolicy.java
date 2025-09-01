@@ -12,10 +12,16 @@ public class InsurancePolicy {
     private Long id;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
     private String provider;
+
+    @NotNull(message = "Policy startDate is required")
+    @Column(nullable = false)
     private LocalDate startDate;
+
+    @Column
     private LocalDate endDate; // nullable == open-ended
 
     public InsurancePolicy() {}

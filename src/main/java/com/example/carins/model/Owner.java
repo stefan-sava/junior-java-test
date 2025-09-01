@@ -7,10 +7,13 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 @Table(name = "owner")
 public class Owner {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank
     private String name;
+
     @Email
     private String email;
 
