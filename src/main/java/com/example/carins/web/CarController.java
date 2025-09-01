@@ -6,7 +6,6 @@ import com.example.carins.web.dto.CarDto;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -28,12 +27,12 @@ public class CarController {
         this.service = service;
     }
 
-    @GetMapping("/cars")
+    @GetMapping
     public List<CarDto> getCars() {
         return service.listCars().stream().map(this::toDto).toList();
     }
 
-    @GetMapping("/cars/{carId}/insurance-valid")
+    @GetMapping("/{carId}/insurance-valid")
     public ResponseEntity<?> insuranceValid(
             @PathVariable Long carId,
             @RequestParam String date

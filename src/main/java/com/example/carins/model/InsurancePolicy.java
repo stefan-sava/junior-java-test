@@ -21,7 +21,6 @@ public class InsurancePolicy {
     @Column(nullable = false)
     private LocalDate startDate;
 
-    @Column
     private LocalDate endDate; // nullable == open-ended
 
     public InsurancePolicy() {}
